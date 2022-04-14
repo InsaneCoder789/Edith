@@ -10,6 +10,16 @@ class Data:
     c = conn.cursor()
     datetime_format = "%Y-%m-%d %H:%M:%S"
 
+@classmethod
+def create_tables(cls):
+      cls.c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS "webhooks" (
+                "channel_id"	INTEGER NOT NULL,
+                "webhook_url"	TEXT
+            )
+            """
+        )
 
     # Webhook Data
     @classmethod

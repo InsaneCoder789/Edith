@@ -11,7 +11,7 @@ import pyfiglet
 import humanize
 from datetime import datetime
 import pyjokes
-
+from cogs.data import Data 
 
 class slashfun(commands.Cog):
 
@@ -307,6 +307,8 @@ class slashfun(commands.Cog):
         choices = ["Heads", "Tails"]
         rancoin = random.choice(choices)
         await ctx.respond(rancoin)
+
+
 @commands.slash_command
 async def impersonate(
         self,
@@ -338,7 +340,7 @@ async def impersonate(
 
         else:
             webhook: discord.Webhook = await ctx.channel.create_webhook(
-                name="Sparta Impersonate Command",
+                name="Impersonate Webhook for Edith",
                 reason="Impersonation Command",
             )
             Data.create_new_webhook_data(ctx.channel, webhook.url)
