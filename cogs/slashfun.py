@@ -307,6 +307,50 @@ class slashfun(commands.Cog):
         choices = ["Heads", "Tails"]
         rancoin = random.choice(choices)
         await ctx.respond(rancoin)
+@commands.slash_command
+async def impersonate(
+        self,
+        ctx: discord.ApplicationContext,
+        member: discord.Member,
+        message: str,
+    ):
+        """
+        Pretend to be another member of your server
+        """
+
+        webhook_url = Data.webhook_entry_exists(ctx.channel)
+
+        if webhook_url:
+            webhook = discord.utils.get(
+                await ctx.channel.webhooks(), url=webhook_url
+            )
+
+            if not webhook:
+                webhook: discord.Webhook = await ctx.channel.create_webhook(
+                    name="Edith Impersonate Command",
+                    reason="Impersonation Command",
+                )
+                Data.c.execute(
+                    "UPDATE webhooks SET webhook_url = :new_url WHERE channel_id = :ch_id",
+                    {"new_url": webhook.url, "ch_id": ctx.channel.id},
+                )
+                Data.conn.commit()
+
+        else:
+            webhook: discord.Webhook = await ctx.channel.create_webhook(
+                name="Sparta Impersonate Command",
+                reason="Impersonation Command",
+            )
+            Data.create_new_webhook_data(ctx.channel, webhook.url)
+
+        await webhook.send(
+            message,
+            username=member.display_name,
+            avatar_url=member.avatar.url,
+            allowed_mentions=discord.AllowedMentions.none(),
+        )
+        await ctx.respond("SUS", ephemeral=True)
+
 
 
 def setup(bot):
