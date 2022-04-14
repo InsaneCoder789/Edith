@@ -22,8 +22,8 @@ def create_tables(cls):
         )
 
     # Webhook Data
-    @classmethod
-    def create_new_webhook_data(cls, channel, webhook_url):
+@classmethod
+def create_new_webhook_data(cls, channel, webhook_url):
         cls.c.execute(
             "INSERT INTO webhooks VALUES (:channel_id, :webhook_url)",
             {"channel_id": channel.id, "webhook_url": webhook_url},
@@ -31,8 +31,8 @@ def create_tables(cls):
         cls.conn.commit()
         print(f"Created webhook entry for channel with ID {channel.id}")
 
-    @classmethod
-    def webhook_entry_exists(cls, channel) -> Union[str, bool]:
+@classmethod
+def webhook_entry_exists(cls, channel) -> Union[str, bool]:
         cls.c.execute(
             "SELECT webhook_url FROM webhooks WHERE channel_id = :channel_id",
             {"channel_id": channel.id},

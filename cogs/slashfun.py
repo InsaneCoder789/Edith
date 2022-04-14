@@ -11,7 +11,7 @@ import pyfiglet
 import humanize
 from datetime import datetime
 import pyjokes
-from cogs.data import Data 
+from data import Data 
 
 class slashfun(commands.Cog):
 
